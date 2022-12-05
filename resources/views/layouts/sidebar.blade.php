@@ -10,21 +10,21 @@
         </div>
         <ul class="sidebar-menu">
             <li class="menu-header">Dashboard</li>
-            <li class="dropdown">
+            <li class="{{request()->is('home') ? 'active' : ''}}">
                 <a href="{{ url('home') }}" class="nav-link"><i class="fas fa-home"></i><span>Home</span></a>
             </li>
             <li class="menu-header">Data Master </li>
-            <li>
+            <li class="{{request()->is('faskes') ? 'active' : ''}}">
                 <a class="nav-link" href="{{ route('faskes.index') }}"><i class="fas fa-users"></i> <span>Data
                         Faskes</span>
                 </a>
             </li>
-            <li>
+            <li class="{{request()->is('pasien') ? 'active' : ''}}">
                 <a class="nav-link" href="{{ route('pasien.index') }}"><i class="fas fa-project-diagram"></i>
                     <span>Data Pasien</span>
                 </a>
             </li>
-            <li>
+            <li class="{{request()->is('obat') ? 'active' : ''}}">
                 <a class="nav-link" href="{{ route('obat.index') }}"><i class="fas fa-cogs"></i> <span>Data Obat</span>
                 </a>
             </li>

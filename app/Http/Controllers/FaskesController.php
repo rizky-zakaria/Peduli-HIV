@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class FaskesController extends Controller
 {
@@ -25,7 +26,7 @@ class FaskesController extends Controller
      */
     public function create()
     {
-        //
+        return view('faskes.create');
     }
 
     /**
@@ -36,7 +37,21 @@ class FaskesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|min:5',
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
+
+        $faskes = new User();
+        $faskes->name = $request->name;
+        $faskes->email = $request->email;   
+        $faskes->password = Hash::make($request->password);
+        $faskes->role = 'faskes';
+        
+        $faskes->save();
+
+        return redirect()->route('faskes.index');
     }
 
     /**
@@ -56,9 +71,9 @@ class FaskesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(User $faske)
     {
-        //
+        return view('faskes.edit', compact('faske'));
     }
 
     /**
@@ -68,9 +83,21 @@ class FaskesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $faske)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|min:5',
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
+
+        $faske->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $request->password,
+        ]);
+
+        return redirect()->route('faskes.index');
     }
 
     /**
@@ -79,8 +106,9 @@ class FaskesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $faske)
     {
-        //
+        $faske->delete();
+        return back();
     }
 }

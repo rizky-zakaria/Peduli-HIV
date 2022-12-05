@@ -6,16 +6,16 @@
         <div class="section-header">
             {{-- <h1>{{ $modul }}</h1> --}}
             <div class="section-header-breadcrumb">
-                <div class="breadcrumb-item active"><a href="#">Faskes</a></div>
+                <div class="breadcrumb-item active"><a href="#">Obat - Obatan</a></div>
                 {{-- <div class="breadcrumb-item"><a href="{{ url('home') }}">{{ $modul }}</a></div> --}}
             </div>
         </div>
         <div class="section-body">
             <div class="card">
                 <div class="card-header d-flex justify-content-between">
-                    <h4>Fasilitas Kesehatan</h4>
+                    <h4>Obat - Obatan</h4>
                     @if (Auth::user()->role === 'dikes')
-                    <a href="{{ route('faskes.create') }}" class="btn btn-primary float-right">Tambah</a>
+                    <a href="{{ route('obat.create') }}" class="btn btn-primary float-right">Tambah</a>
                     @endif
                 </div>
                 <div class="card-body">
@@ -24,27 +24,27 @@
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>Nama Faskes</th>
-                                    <th>Email</th>
-                                    <th>Jabatan</th>
+                                    <th>Nama Obat</th>
+                                    <th>Jumlah</th>
+                                    <th>Satuan</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($data as $faskes)
+                                @foreach ($data as $obat)
                                 <tr>
                                     <td>{{$loop->iteration}}</td>
-                                    <td>{{$faskes->name}}</td>
-                                    <td>{{$faskes->email}}</td>
-                                    <td>{{$faskes->role}}</td>
+                                    <td>{{$obat->nama}}</td>
+                                    <td>{{$obat->jumlah}}</td>
+                                    <td>{{$obat->satuan}}</td>
                                     <td>
-                                        <form action="{{ route('faskes.destroy', $faskes->id) }}" method="POST">
-                                            <a class="btn btn-warning" href="{{route('faskes.edit', $faskes->id)}}"><i
+                                        <form action="{{ route('obat.destroy', $obat->id) }}" method="POST">
+                                            <a class="btn btn-warning" href="{{route('obat.edit', $obat->id)}}"><i
                                                     class="fa fa-edit"></i> Edit</a>
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i>
-                                                Hapus</button>
+                                            <button type="submit" class="btn btn-danger"><i
+                                                    class="fa fa-trash"></i> Hapus</button>
                                         </form>
                                     </td>
                                 </tr>
@@ -53,9 +53,9 @@
                             <tfoot>
                                 <tr>
                                     <th>No</th>
-                                    <th>Nama Faskes</th>
-                                    <th>Email</th>
-                                    <th>Jabatan</th>
+                                    <th>Nama Obat</th>
+                                    <th>Jumlah</th>
+                                    <th>Satuan</th>
                                     <th>Aksi</th>
                                 </tr>
                             </tfoot>

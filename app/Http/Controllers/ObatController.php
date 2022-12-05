@@ -25,7 +25,7 @@ class ObatController extends Controller
      */
     public function create()
     {
-        //
+        return view('obat.create');
     }
 
     /**
@@ -36,7 +36,20 @@ class ObatController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'nama' => 'required|min:4',
+            'jumlah' => 'required',
+            'satuan' => 'required'
+        ]);
+
+        $obat = new Obat();
+        $obat->nama = $request->nama;
+        $obat->jumlah = $request->jumlah;  
+        $obat->satuan = $request->satuan;  
+        
+        $obat->save();
+
+        return redirect()->route('obat.index');
     }
 
     /**
@@ -47,7 +60,7 @@ class ObatController extends Controller
      */
     public function show($id)
     {
-        //
+
     }
 
     /**
@@ -56,9 +69,9 @@ class ObatController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Obat $obat)
     {
-        //
+        return view('obat.edit', compact('obat'));
     }
 
     /**
@@ -68,9 +81,21 @@ class ObatController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Obat $obat)
     {
-        //
+        $this->validate($request, [
+            'nama' => 'required|min:4',
+            'jumlah' => 'required',
+            'satuan' => 'required'
+        ]);
+
+        $obat->update([
+            'nama' => $request->nama,
+            'jumlah' => $request->jumlah,
+            'satuan' => $request->satuan,
+        ]);
+
+        return redirect()->route('obat.index');
     }
 
     /**
@@ -79,8 +104,9 @@ class ObatController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Obat $obat)
     {
-        //
+        $obat->delete();
+        return back();
     }
 }

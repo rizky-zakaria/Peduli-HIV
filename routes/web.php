@@ -4,6 +4,7 @@ use App\Http\Controllers\BiodataController;
 use App\Http\Controllers\FaskesController;
 use App\Http\Controllers\ObatController;
 use App\Http\Controllers\PasienController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*

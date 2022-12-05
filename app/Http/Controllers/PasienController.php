@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class PasienController extends Controller
 {
@@ -15,7 +16,7 @@ class PasienController extends Controller
     public function index()
     {
         $data = User::where('role', 'pasien')->get();
-        return view('faskes.index', compact('data'));
+        return view('pasien.index', compact('data'));
     }
 
     /**
@@ -25,7 +26,7 @@ class PasienController extends Controller
      */
     public function create()
     {
-        //
+        return view('pasien.create');
     }
 
     /**
@@ -36,7 +37,21 @@ class PasienController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|min:5',
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
+
+        $pasien = new User();
+        $pasien->name = $request->name;
+        $pasien->email = $request->email;   
+        $pasien->password = Hash::make($request->password);
+        $pasien->role = 'pasien';
+        
+        $pasien->save();
+
+        return redirect()->route('pasien.index');
     }
 
     /**
@@ -56,9 +71,9 @@ class PasienController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(User $pasien)
     {
-        //
+        return view('pasien.edit', compact('pasien'));   
     }
 
     /**
@@ -68,9 +83,22 @@ class PasienController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $pasien)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|min:5',
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
+
+        $pasien->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $request->password,
+        ]);
+
+        return redirect()->route('pasien.index');
+
     }
 
     /**
@@ -79,8 +107,9 @@ class PasienController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $pasien)
     {
-        //
+        $pasien->delete();
+        return back();
     }
 }
