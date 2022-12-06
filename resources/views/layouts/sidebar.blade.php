@@ -5,29 +5,45 @@
                 <img src="{{ asset('img/logo.png') }}" alt="" width="150">
             </a>
         </div>
-        <div class="sidebar-brand sidebar-brand-sm">
+        {{-- <div class="sidebar-brand sidebar-brand-sm">
             <a href="index.html">St</a>
-        </div>
+        </div> --}}
         <ul class="sidebar-menu">
             <li class="menu-header">Dashboard</li>
-            <li class="{{request()->is('home') ? 'active' : ''}}">
-                <a href="{{ url('home') }}" class="nav-link"><i class="fas fa-home"></i><span>Home</span></a>
+
+            {{-- SideBar Admin --}}
+            @if (auth()->user()->role == 'dikes')
+            <li class="{{request()->is('dikes/home') ? 'active' : ''}}">
+                <a href="{{ route('dikes.home') }}" class="nav-link"><i class="fas fa-home"></i><span>Home</span></a>
             </li>
+
             <li class="menu-header">Data Master </li>
-            <li class="{{request()->is('faskes') ? 'active' : ''}}">
+            <li class="{{request()->is('dikes/faskes') ? 'active' : ''}}">
                 <a class="nav-link" href="{{ route('faskes.index') }}"><i class="fas fa-users"></i> <span>Data
-                        Faskes</span>
+                    Faskes</span>
                 </a>
             </li>
-            <li class="{{request()->is('pasien') ? 'active' : ''}}">
+            <li class="{{request()->is('dikes/pasien') ? 'active' : ''}}">
                 <a class="nav-link" href="{{ route('pasien.index') }}"><i class="fas fa-project-diagram"></i>
                     <span>Data Pasien</span>
                 </a>
             </li>
-            <li class="{{request()->is('obat') ? 'active' : ''}}">
+            <li class="{{request()->is('dikes/obat') ? 'active' : ''}}">
                 <a class="nav-link" href="{{ route('obat.index') }}"><i class="fas fa-cogs"></i> <span>Data Obat</span>
                 </a>
             </li>
+
+            {{-- Sidebar Faskes --}}
+            @elseif(auth()->user()->role == 'faskes')
+            <li class="{{request()->is('faskes/home') ? 'active' : ''}}">
+                <a href="{{ route('faskes.home') }}" class="nav-link"><i class="fas fa-home"></i><span>Home</span></a>
+            </li>
+
+            @elseif(auth()->user()->role == 'pasien')
+            <li class="{{request()->is('pasien/home') ? 'active' : ''}}">
+                <a href="{{ route('dikes.home') }}" class="nav-link"><i class="fas fa-home"></i><span>Home</span></a>
+            </li>
+            @endif
         </ul>
 
         <div class="mt-4 mb-4 p-3 hide-sidebar-mini">

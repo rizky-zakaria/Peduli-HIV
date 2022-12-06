@@ -23,7 +23,25 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function dikes()
+    {
+        $faskes = count(User::where('role', 'faskes')->get());
+        $obat = count(Obat::all());
+        $jenis = count(Obat::all());
+        $pasien = count(User::where('role', 'fasien')->get());
+        return view('home.index', compact('faskes', 'obat', 'pasien', 'jenis'));
+    }
+
+    public function faskes()
+    {
+        $faskes = count(User::where('role', 'faskes')->get());
+        $obat = count(Obat::all());
+        $jenis = count(Obat::all());
+        $pasien = count(User::where('role', 'fasien')->get());
+        return view('home.index', compact('faskes', 'obat', 'pasien', 'jenis'));
+    }
+
+    public function pasien()
     {
         $faskes = count(User::where('role', 'faskes')->get());
         $obat = count(Obat::all());
