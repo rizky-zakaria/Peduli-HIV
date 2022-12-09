@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\HistoriObat;
 use App\Models\Obat;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Console\View\Components\Alert;
 
 class ObatController extends Controller
 {
@@ -15,7 +19,30 @@ class ObatController extends Controller
     public function index()
     {
         $data = Obat::all();
-        return view('obat.index', compact('data'));
+        $obat = Obat::all();
+        $jumlah = count($obat);
+        return view('obat.index', compact('data', 'obat', 'jumlah'));
+    }
+
+    public function ambilObat(Request $request)
+    {
+        $pasien = User::find($request->userId);
+
+        for ($i = 0; $i < count($request->obat); $i++) {
+            $obat = Obat::find($request->obat[$i]);
+            if ($obat->jumlah > $request->banyak[$i]) {
+                $obat->jumlah = $obat->jumlah - $request->banyak[$i];
+                $obat->update();
+            } else {
+                toast('Persediaan obat tidak cukup', 'error');
+                return redirect(url('dikes/obat'));
+            }
+        }
+
+        HistoriObat::create([
+            'history' => Auth::user()->name . " memberikan obat kepada pasien " . $pasien->name . " pada tanggal " . date('d M Y')
+        ]);
+        return redirect(url('dikes/obat'));
     }
 
     /**
@@ -44,9 +71,9 @@ class ObatController extends Controller
 
         $obat = new Obat();
         $obat->nama = $request->nama;
-        $obat->jumlah = $request->jumlah;  
-        $obat->satuan = $request->satuan;  
-        
+        $obat->jumlah = $request->jumlah;
+        $obat->satuan = $request->satuan;
+
         $obat->save();
 
         return redirect()->route('obat.index');
@@ -60,7 +87,6 @@ class ObatController extends Controller
      */
     public function show($id)
     {
-
     }
 
     /**
@@ -108,5 +134,16 @@ class ObatController extends Controller
     {
         $obat->delete();
         return back();
+    }
+
+    public function cari($nama)
+    {
+        $data = User::where('name', $nama)->first();
+
+        if (isset($data->name)) {
+            return response()->json($data);
+        } else {
+            return response()->json(null);
+        }
     }
 }

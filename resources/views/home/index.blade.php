@@ -92,9 +92,18 @@
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-body">
-                        <div style="width: 100%;height: 100%">
-                            <canvas id="myChart"></canvas>
-                        </div>
+                        <h5>Hello, {{ Auth::user()->name }}</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body" style="height: 400px; overflow: scroll;">
+                        <ul class="list-group">
+                            @foreach ($historyObat as $item)
+                                <li class="list-group-item">{{ $item->history }}</li>
+                            @endforeach
+                        </ul>
                     </div>
                 </div>
             </div>

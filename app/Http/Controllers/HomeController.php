@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\HistoriObat;
 use App\Models\Obat;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -28,8 +29,9 @@ class HomeController extends Controller
         $faskes = count(User::where('role', 'faskes')->get());
         $obat = count(Obat::all());
         $jenis = count(Obat::all());
-        $pasien = count(User::where('role', 'fasien')->get());
-        return view('home.index', compact('faskes', 'obat', 'pasien', 'jenis'));
+        $pasien = count(User::where('role', 'pasien')->get());
+        $historyObat = HistoriObat::limit(10)->get();
+        return view('home.index', compact('faskes', 'obat', 'pasien', 'jenis', 'historyObat'));
     }
 
     public function faskes()
@@ -38,7 +40,8 @@ class HomeController extends Controller
         $obat = count(Obat::all());
         $jenis = count(Obat::all());
         $pasien = count(User::where('role', 'fasien')->get());
-        return view('home.index', compact('faskes', 'obat', 'pasien', 'jenis'));
+        $historyObat = HistoriObat::limit(10)->get();
+        return view('home.index', compact('faskes', 'obat', 'pasien', 'jenis', 'historyObat'));
     }
 
     public function pasien()

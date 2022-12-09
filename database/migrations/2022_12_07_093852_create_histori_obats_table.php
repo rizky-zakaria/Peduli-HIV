@@ -13,12 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('obats', function (Blueprint $table) {
+        Schema::create('histori_obats', function (Blueprint $table) {
             $table->id();
-            $table->string('kode');
-            $table->string('nama');
-            $table->integer('stok');
-            $table->string('jenis');
+            $table->text('history');
             $table->timestamps();
         });
     }
@@ -30,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('obats');
+        Schema::dropIfExists('histori_obats');
     }
 };

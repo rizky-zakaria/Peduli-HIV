@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cluster;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -16,7 +17,23 @@ class PasienController extends Controller
     public function index()
     {
         $data = User::where('role', 'pasien')->get();
-        return view('pasien.index', compact('data'));
+        $cluster = Cluster::all();
+        $faskes = User::where('role', 'faskes')->get();
+        return view('pasien.index', compact('data', 'faskes', 'cluster'));
+    }
+
+    public function manajemen(Request $request)
+    {
+        $post = new Cluster;
+        $post->pasien_id = $request->pasien;
+        $post->faskes_id = $request->faskes;
+        $post->save();
+
+        if ($post) {
+            return redirect(route('pasien.index'));
+        } else {
+            return redirect(route('pasien.index'));
+        }
     }
 
     /**
@@ -45,10 +62,10 @@ class PasienController extends Controller
 
         $pasien = new User();
         $pasien->name = $request->name;
-        $pasien->email = $request->email;   
+        $pasien->email = $request->email;
         $pasien->password = Hash::make($request->password);
         $pasien->role = 'pasien';
-        
+
         $pasien->save();
 
         return redirect()->route('pasien.index');
@@ -73,7 +90,7 @@ class PasienController extends Controller
      */
     public function edit(User $pasien)
     {
-        return view('pasien.edit', compact('pasien'));   
+        return view('pasien.edit', compact('pasien'));
     }
 
     /**
@@ -98,7 +115,6 @@ class PasienController extends Controller
         ]);
 
         return redirect()->route('pasien.index');
-
     }
 
     /**

@@ -74,7 +74,7 @@
         </div>
     </div>
 
-    {{-- @include('sweetalert::alert') --}}
+    @include('sweetalert::alert')
     <!-- General JS Scripts -->
     <script src="{{ asset('stisla/dist/assets/modules/jquery.min.js') }}"></script>
     <script src="{{ asset('stisla/dist/assets/modules/popper.js') }}"></script>
@@ -98,7 +98,18 @@
     <script src="{{ asset('stisla/dist/assets/js/chart.js') }}"></script>
     <!-- Template JS File -->
     <script src="{{ asset('stisla/dist/assets/js/scripts.js') }}"></script>
-    <script src="{{ asset('stisle/dist/assets/js/custom.js') }}"></script>
+    <script src="{{ asset('stisla/dist/assets/js/custom.js') }}"></script>
+    <script>
+        var url = '';
+        const deleteData = (id) => {
+            url = 'https://manajemen-proyek.bisadong.id/data-master/proyek/:id';
+            url = url.replace(':id', id);
+            $("#deleteForm").attr('action', url);
+        }
+        const formSubmit = () => {
+            $("#deleteForm").submit();
+        }
+    </script>
 </body>
 
 </html>
